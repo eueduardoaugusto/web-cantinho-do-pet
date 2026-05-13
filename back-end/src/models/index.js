@@ -10,40 +10,166 @@ import PaymentParcel from "./paymentParcel.js";
 import Pet from "./pets.js";
 import Setor from "./setor.js";
 import Grupos from "./groups.js";
+import Scheduling from "./scheduling.js";
 
-Client.hasMany(Pet, { foreignKey: "id_cliente" });
-Pet.belongsTo(Client, { foreignKey: "id_cliente" });
+// =========================
+// CLIENTE -> PET
+// =========================
+Client.hasMany(Pet, {
+  foreignKey: "id_cliente",
+});
 
-Client.hasMany(Sale, { foreignKey: "id_cliente" });
-Sale.belongsTo(Client, { foreignKey: "id_cliente" });
+Pet.belongsTo(Client, {
+  foreignKey: "id_cliente",
+});
 
-User.hasMany(Sale, { foreignKey: "id_usuario" });
-Sale.belongsTo(User, { foreignKey: "id_usuario" });
+// =========================
+// CLIENTE -> VENDA
+// =========================
+Client.hasMany(Sale, {
+  foreignKey: "id_cliente",
+});
 
-Supplier.hasMany(Product, { foreignKey: "id_fornecedor" });
-Product.belongsTo(Supplier, { foreignKey: "id_fornecedor" });
+Sale.belongsTo(Client, {
+  foreignKey: "id_cliente",
+});
 
-Product.hasMany(ItemSold, { foreignKey: "id_produto" });
-ItemSold.belongsTo(Product, { foreignKey: "id_produto" });
+// =========================
+// USUARIO -> VENDA
+// =========================
+User.hasMany(Sale, {
+  foreignKey: "id_usuario",
+});
 
-Sale.hasMany(ItemSold, { foreignKey: "id_venda" });
-ItemSold.belongsTo(Sale, { foreignKey: "id_venda" });
+Sale.belongsTo(User, {
+  foreignKey: "id_usuario",
+});
 
-Budget.hasOne(Sale, { foreignKey: "id_orcamento" });
-Sale.belongsTo(Budget, { foreignKey: "id_orcamento" });
+// =========================
+// FORNECEDOR -> PRODUTO
+// =========================
+Supplier.hasMany(Product, {
+  foreignKey: "id_fornecedor",
+});
 
-Sale.hasOne(Invoice, { foreignKey: "id_venda" });
-Invoice.belongsTo(Sale, { foreignKey: "id_venda" });
+Product.belongsTo(Supplier, {
+  foreignKey: "id_fornecedor",
+});
 
-Sale.hasMany(PaymentParcel, { foreignKey: "id_venda" });
-PaymentParcel.belongsTo(Sale, { foreignKey: "id_venda" });
+// =========================
+// PRODUTO -> ITEM VENDA
+// =========================
+Product.hasMany(ItemSold, {
+  foreignKey: "id_produto",
+});
 
-Client.hasMany(Budget, { foreignKey: "id_cliente" });
-Budget.belongsTo(Client, { foreignKey: "id_cliente" });
-Budget.belongsTo(User, { foreignKey: "id_usuario" });
+ItemSold.belongsTo(Product, {
+  foreignKey: "id_produto",
+});
 
-Invoice.belongsTo(Sale, { foreignKey: "id_venda" });
-Sale.hasMany(Invoice, { foreignKey: "id_venda" });
+// =========================
+// VENDA -> ITEM VENDA
+// =========================
+Sale.hasMany(ItemSold, {
+  foreignKey: "id_venda",
+});
+
+ItemSold.belongsTo(Sale, {
+  foreignKey: "id_venda",
+});
+
+// =========================
+// ORÇAMENTO -> VENDA
+// =========================
+Budget.hasOne(Sale, {
+  foreignKey: "id_orcamento",
+});
+
+Sale.belongsTo(Budget, {
+  foreignKey: "id_orcamento",
+});
+
+// =========================
+// VENDA -> NOTA FISCAL
+// =========================
+Sale.hasOne(Invoice, {
+  foreignKey: "id_venda",
+});
+
+Invoice.belongsTo(Sale, {
+  foreignKey: "id_venda",
+});
+
+// =========================
+// VENDA -> PARCELAS
+// =========================
+Sale.hasMany(PaymentParcel, {
+  foreignKey: "id_venda",
+});
+
+PaymentParcel.belongsTo(Sale, {
+  foreignKey: "id_venda",
+});
+
+// =========================
+// CLIENTE -> ORÇAMENTO
+// =========================
+Client.hasMany(Budget, {
+  foreignKey: "id_cliente",
+});
+
+Budget.belongsTo(Client, {
+  foreignKey: "id_cliente",
+});
+
+Budget.belongsTo(User, {
+  foreignKey: "id_usuario",
+});
+
+// =========================
+// VENDA -> NOTAS
+// =========================
+Invoice.belongsTo(Sale, {
+  foreignKey: "id_venda",
+});
+
+Sale.hasMany(Invoice, {
+  foreignKey: "id_venda",
+});
+
+// ======================================================
+// AGENDAMENTOS
+// ======================================================
+
+// CLIENTE -> AGENDAMENTO
+Client.hasMany(Scheduling, {
+  foreignKey: "id_cliente",
+});
+
+Scheduling.belongsTo(Client, {
+  foreignKey: "id_cliente",
+  as: "cliente",
+});
+
+// PET -> AGENDAMENTO
+Pet.hasMany(Scheduling, {
+  foreignKey: "id_pet",
+});
+
+Scheduling.belongsTo(Pet, {
+  foreignKey: "id_pet",
+  as: "pet",
+});
+
+// PRODUTO/SERVIÇO -> AGENDAMENTO
+Product.hasMany(Scheduling, {
+  foreignKey: "id_servico",
+});
+
+Scheduling.belongsTo(Product, {
+  foreignKey: "id_servico",
+  as: "servico",
+});
 
 export {
   Client,
@@ -58,4 +184,5 @@ export {
   Pet,
   Setor,
   Grupos,
+  Scheduling,
 };

@@ -40,6 +40,10 @@ const Produto = sequelize.define(
       type: DataTypes.DECIMAL(10, 2),
       allowNull: false,
     },
+    servico: {
+      type: DataTypes.TINYINT,
+      allowNull: true,
+    },
   },
   {
     timestamps: false,

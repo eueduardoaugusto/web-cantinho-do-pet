@@ -1,26 +1,57 @@
 import { User } from "../models/index.js";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+
 import { createSession } from "../lib/session.js";
 import { encryptPassword } from "../utils/passwordEncryption.js";
 
+// =========================
+// REGISTER
+// =========================
 export async function register(req, res) {
   const { name, email, password } = req.body;
 
   try {
-    const userExists = await User.findOne({ where: { email } });
+    const userExists = await User.findOne({
+      where: { email },
+    });
+
     if (userExists) {
-      return res
-        .status(409)
-        .json({ errors: ["O e-mail fornecido já existe."] });
+      return res.status(409).json({
+        errors: ["O e-mail fornecido já existe."],
+      });
     }
 
     const passwordHash = await encryptPassword(password);
 
-    const user = await User.create({ name, email, password: passwordHash });
+    const user = await User.create({
+      name,
+      email,
+      password: passwordHash,
+    });
 
+    // =========================
+    // COOKIE SESSION (WEB)
+    // =========================
     await createSession(res, user.id, user.role);
+
+    // =========================
+    // JWT TOKEN (MOBILE)
+    // =========================
+    const token = jwt.sign(
+      {
+        id: user.id,
+        role: user.role,
+      },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "7d",
+      },
+    );
+
     return res.status(200).json({
       message: "Cadastro realizado com sucesso!",
+      token,
       user: {
         id: user.id,
         name: user.name,
@@ -30,35 +61,60 @@ export async function register(req, res) {
     });
   } catch (error) {
     console.error("Ocorreu um erro:", error);
+
     return res.status(500).json({
       errors: ["Ocorreu um erro. Por favor, tente novamente mais tarde."],
     });
   }
 }
 
+// =========================
+// LOGIN
+// =========================
 export async function login(req, res) {
   const { email, password } = req.body;
 
   try {
-    const user = await User.findOne({ where: { email } });
+    const user = await User.findOne({
+      where: { email },
+    });
 
     if (!user) {
-      return res.status(404).json({ errors: ["Usuário não encontrado"] });
+      return res.status(404).json({
+        errors: ["Usuário não encontrado"],
+      });
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (!isPasswordValid) {
       return res.status(401).json({
-        errors: ["Senha incorreta, Por favor digite uma senha válida"],
+        errors: ["Senha incorreta, por favor digite uma senha válida."],
       });
     }
 
-    // Cria o cookie de sessão
+    // =========================
+    // COOKIE SESSION (WEB)
+    // =========================
     await createSession(res, user.id, user.role);
+
+    // =========================
+    // JWT TOKEN (MOBILE)
+    // =========================
+    const token = jwt.sign(
+      {
+        id: user.id,
+        role: user.role,
+      },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "7d",
+      },
+    );
 
     return res.status(200).json({
       message: "Login realizado com sucesso!",
+      token,
       user: {
         id: user.id,
         name: user.name,
@@ -68,12 +124,16 @@ export async function login(req, res) {
     });
   } catch (error) {
     console.error("Ocorreu um erro:", error);
+
     return res.status(500).json({
       errors: ["Ocorreu um erro. Por favor, tente novamente mais tarde."],
     });
   }
 }
 
+// =========================
+// LOGOUT
+// =========================
 export function logout(req, res) {
   res.clearCookie("session", {
     httpOnly: true,
@@ -81,9 +141,16 @@ export function logout(req, res) {
     sameSite: "Lax",
   });
 
-  return res.sendStatus(204);
+  return res.status(200).json({
+    message: "Logout realizado com sucesso!",
+  });
 }
 
+// =========================
+// ME
+// =========================
 export function me(req, res) {
-  return res.status(200).json({ user: req.user });
+  return res.status(200).json({
+    user: req.user,
+  });
 }

@@ -1,18 +1,31 @@
 const API_URL = "http://localhost:3000/api/auth/login";
 
+// ======================================================
+// LOGIN
+// ======================================================
 document.querySelector(".login-form").addEventListener("submit", async (e) => {
   e.preventDefault();
 
   const email = document.getElementById("usuario").value.trim();
+
   const password = document.getElementById("senha").value.trim();
 
-  const body = { email, password };
+  const body = {
+    email,
+    password,
+  };
 
   try {
     const response = await fetch(API_URL, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+
+      headers: {
+        "Content-Type": "application/json",
+      },
+
       body: JSON.stringify(body),
+
+      // COOKIE
       credentials: "include",
     });
 
@@ -22,7 +35,24 @@ document.querySelector(".login-form").addEventListener("submit", async (e) => {
       data = await response.json();
     }
 
+    // ======================================================
+    // SUCESSO
+    // ======================================================
     if (response.ok) {
+      // ======================================================
+      // SALVAR TOKEN
+      // ======================================================
+      if (data.token) {
+        localStorage.setItem("token", data.token);
+      }
+
+      // ======================================================
+      // SALVAR USER
+      // ======================================================
+      if (data.user) {
+        localStorage.setItem("user", JSON.stringify(data.user));
+      }
+
       alert("Login realizado com sucesso!");
 
       window.location.href = "telainicial.html";
@@ -31,6 +61,7 @@ document.querySelector(".login-form").addEventListener("submit", async (e) => {
     }
   } catch (error) {
     console.error("Erro ao conectar com a API:", error);
+
     alert("Erro ao conectar com o servidor.");
   }
 });

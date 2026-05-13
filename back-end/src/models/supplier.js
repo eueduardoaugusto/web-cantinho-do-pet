@@ -4,13 +4,12 @@ import { sequelize } from "../config/database.js";
 const Supplier = sequelize.define(
   "Supplier",
   {
-    id_supplier: {
+    id_agendamento: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
-      field: "id_fornecedor",
     },
-    name: {
+    id_cliente: {
       type: DataTypes.STRING(100),
       allowNull: false,
       field: "nome",
