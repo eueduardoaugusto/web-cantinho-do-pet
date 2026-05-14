@@ -101,6 +101,7 @@ export async function login(req, res) {
     // =========================
     // JWT TOKEN (MOBILE)
     // =========================
+    console.log(process.env.JWT_SECRET);
     const token = jwt.sign(
       {
         id: user.id,

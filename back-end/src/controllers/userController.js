@@ -88,3 +88,29 @@ export async function deleteEmployee(req, res) {
     });
   }
 }
+
+export async function imageUpload(req, res) {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ errors: ["Imagem não enviada"] });
+    }
+
+    const { filename } = req.file;
+
+    await User.update({ avatar: filename }, { where: { id: req.user.userId } });
+
+    const user = await User.findByPk(req.user.userId, {
+      attributes: { exclude: ["password"] },
+    });
+
+    return res.status(200).json({
+      message: "Usuário atualizado com sucesso",
+      user,
+    });
+  } catch (error) {
+    console.error("Ocorreu um erro:", error);
+    return res.status(500).json({
+      errors: ["Ocorreu um erro. Por favor, tente novamente mais tarde."],
+    });
+  }
+}
