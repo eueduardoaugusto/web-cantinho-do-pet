@@ -65,12 +65,28 @@ function renderCurrentDate() {
 renderCurrentDate();
 
 // ======================================================
-// FORMATAR HORÁRIO
+// FORMATAR HORÁRIO INICIAL
 // ======================================================
 function formatTime(dateString) {
   if (!dateString) return "--:--";
 
   const date = new Date(dateString);
+
+  return date.toLocaleTimeString("pt-BR", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
+
+// ======================================================
+// FORMATAR HORÁRIO FINAL (+30 MIN)
+// ======================================================
+function formatEndTime(dateString) {
+  if (!dateString) return "--:--";
+
+  const date = new Date(dateString);
+
+  date.setMinutes(date.getMinutes() + 30);
 
   return date.toLocaleTimeString("pt-BR", {
     hour: "2-digit",
@@ -87,7 +103,7 @@ function getServiceTag(serviceName) {
   const words = serviceName.split(" ");
 
   if (words.length === 1) {
-    return words[0].substring(0, 2).toUpperCase();
+    return words.substring(0, 2).toUpperCase();
   }
 
   return words
@@ -171,15 +187,16 @@ function renderScheduling(schedulingList) {
       item.status?.toLowerCase() === "pendente"
     );
   });
+
   // ==========================================
   // SEM AGENDAMENTOS
   // ==========================================
   if (filteredList.length === 0) {
     horariosList.innerHTML = `
-    <div class="empty-message">
-      Nenhum agendamento nesta data.
-    </div>
-  `;
+      <div class="empty-message">
+        Nenhum agendamento nesta data.
+      </div>
+    `;
   } else {
     // ==========================================
     // RENDER
@@ -194,84 +211,52 @@ function renderScheduling(schedulingList) {
 
       const horario = formatTime(item.data_horario);
 
+      const horarioFinal = formatEndTime(item.data_horario);
+
       const tag = getServiceTag(servicoNome);
 
       const html = `
-      <div class="horario-item">
+        <div class="horario-item">
 
-          <div class="time">
-              <span>${horario}</span>
-          </div>
+            <img
+              class="clock-icon"
+              src="../assets/img/time1.png"
+              alt=""
+            />
 
-          <div class="pet-tag">
-              ${tag}
-          </div>
+            <div class="time">
+                <span class="start-time">
+                  ${horario}
+                </span>
 
-          <div class="cliente">
-              ${clienteNome} (${petNome})
-          </div>
+                <span class="end-time">
+                  ${horarioFinal}
+                </span>
+            </div>
 
-          <button
-            class="more-btn delete-btn"
-            data-id="${item.id_agendamento}"
-          >
-              <i class="fa-solid fa-trash"></i>
-          </button>
+            <div class="pet-tag">
+                ${tag}
+            </div>
 
-      </div>
-    `;
+            <div class="cliente">
+                ${clienteNome} (${petNome})
+            </div>
+
+            <button
+              class="more-btn delete-btn"
+              data-id="${item.id_agendamento}"
+            >
+                <i class="fa-solid fa-trash"></i>
+            </button>
+
+        </div>
+      `;
 
       horariosList.innerHTML += html;
     });
 
     setupDeleteButtons();
   }
-  renderRetirada(schedulingList);
-
-  // ==========================================
-  // RENDER
-  // ==========================================
-  filteredList.forEach((item) => {
-    const clienteNome = item.cliente?.nome || item.cliente?.name || "Cliente";
-
-    const petNome = item.pet?.pet_name || item.pet?.nome_pet || "Pet";
-
-    const servicoNome =
-      item.servico?.nome || item.servico?.nome_produto || "Serviço";
-
-    const horario = formatTime(item.data_horario);
-
-    const tag = getServiceTag(servicoNome);
-
-    const html = `
-      <div class="horario-item">
-
-          <div class="time">
-              <span>${horario}</span>
-          </div>
-
-          <div class="pet-tag">
-              ${tag}
-          </div>
-
-          <div class="cliente">
-              ${clienteNome} (${petNome})
-          </div>
-
-          <button
-            class="more-btn delete-btn"
-            data-id="${item.id_agendamento}"
-          >
-              <i class="fa-solid fa-trash"></i>
-          </button>
-
-      </div>
-    `;
-
-    horariosList.innerHTML += html;
-  });
-
-  setupDeleteButtons();
 
   renderRetirada(schedulingList);
 }
@@ -289,7 +274,7 @@ function renderRetirada(schedulingList) {
   if (confirmado.length === 0) {
     retiradaList.innerHTML = `
       <div class="empty-message">
-        Nenhum pet aguardando retirada.
+        NENHUM PET AGUARDANDO RETIRADA
       </div>
     `;
 
@@ -305,7 +290,7 @@ function renderRetirada(schedulingList) {
       <div class="pet-card">
 
           <img
-            src="https://cdn-icons-png.flaticon.com/512/616/616408.png"
+            src="https://i.postimg.cc/7PGMj3Qn/caes-e-gatos.png"
             alt="Pet"
           >
 
@@ -315,7 +300,7 @@ function renderRetirada(schedulingList) {
 
               <p>${clienteNome}</p>
 
-              <span>
+              <span style="font-size:10px">
                 Pronto para retirada
               </span>
 

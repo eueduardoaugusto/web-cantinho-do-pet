@@ -72,7 +72,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       });
 
       const dados = await resp.json();
-
       editId.value = dados.id;
       editNome.value = dados.nome;
       editTelefone.value = dados.telefone;

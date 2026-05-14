@@ -1,4 +1,3 @@
-
 carregarOpcoes();
 
 async function carregarOpcoes() {
@@ -21,8 +20,10 @@ async function carregarOpcoes() {
 
     setores.forEach((setor) => {
       const option = document.createElement("option");
-      option.value = setor.nome; 
+
+      option.value = setor.nome;
       option.textContent = setor.nome;
+
       selectSetor.appendChild(option);
     });
   } catch (err) {
@@ -46,12 +47,11 @@ async function carregarOpcoesGrupos() {
 
     const data = await response.json();
     const grupos = data.grupos || data || [];
-
+    console.log(grupos);
     const selectGrupos = document.getElementById("grupo");
     selectGrupos.innerHTML = '<option value="">Selecione um grupo</option>';
 
     if (!setorSelecionado) return;
-
 
     const gruposFiltrados = grupos.filter((g) => g.setor == setorSelecionado);
 
@@ -73,7 +73,6 @@ document
 document.addEventListener("DOMContentLoaded", async () => {
   const tabelaBody = document.querySelector("tbody");
 
-
   const modalExcluir = document.getElementById("modal-excluir");
   const cancelarModal = document.getElementById("cancelar-modal");
   const formExcluir = document.getElementById("form-excluir");
@@ -90,7 +89,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   const editSetor = document.getElementById("setor");
   const editGrupo = document.getElementById("grupo");
   const editPreco = document.getElementById("edit-preco");
-
 
   async function carregarProdutos() {
     try {
@@ -115,8 +113,8 @@ document.addEventListener("DOMContentLoaded", async () => {
           <td>${p.setor || "-"}</td>
           <td>${p.grupo || "-"}</td>
           <td>
-            <span class="btn-atualizar" data-id="${p.id}">Atualizar</span>
-            <span class="btn-excluir" data-id="${p.id}">Excluir</span>
+            <span class="btn-atualizar" data-id="${p.id_produto}">Atualizar</span>
+            <span class="btn-excluir" data-id="${p.id_produto}">Excluir</span>
           </td>
         `;
 
@@ -132,7 +130,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   tabelaBody.addEventListener("click", async (e) => {
     const btn = e.target;
 
-    
     if (btn.classList.contains("btn-atualizar")) {
       const id = btn.dataset.id;
 
@@ -142,12 +139,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       const dados = await resp.json();
 
-      editId.value = dados.id;
+      editId.value = dados.id_produto;
       editCodigo.value = dados.codigo;
       editNome.value = dados.nome;
       editTamanho.value = dados.tamanho;
 
-      
       editSetor.value = dados.setor || "";
       await carregarOpcoesGrupos();
       editGrupo.value = dados.grupo || "";
@@ -202,8 +198,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       codigo: editCodigo.value,
       nome: editNome.value,
       tamanho: editTamanho.value,
-      setor: editSetor.value, 
-      grupo: editGrupo.value, 
+      setor: editSetor.value,
+      grupo: editGrupo.value,
       preco: editPreco.value,
     };
 

@@ -23,9 +23,8 @@ function atualizarData() {
   const mes = (hoje.getMonth() + 1).toString().padStart(2, "0");
   const ano = hoje.getFullYear();
 
-  document.getElementById(
-    "dateDisplay",
-  ).textContent = `📅 ${dia}/${mes}/${ano}`;
+  document.getElementById("dateDisplay").textContent =
+    `📅 ${dia}/${mes}/${ano}`;
 }
 
 async function carregarUsuario() {
@@ -64,6 +63,7 @@ function atualizarTituloDinamico() {
     cliente: "CADASTRO DE CLIENTE",
     produto: "CADASTRO DE PRODUTO",
     inicio: "PÁGINA INICIAL",
+    agendamento: "AGENDAMENTO",
   };
 
   tituloEl.textContent = titulos[tipo] || "SISTEMA CANTINHO DO PET";
