@@ -14,12 +14,15 @@ import budgetRoutes from "./budgetRoutes.js";
 import invoiceRoutes from "./invoiceRoutes.js";
 import paymentParcelRoutes from "./paymentParcelRoutes.js";
 
+import stockRoutes from "./stockRoutes.js";
+
 const router = Router();
 
 router.use("/auth", authRoutes);
 router.use("/clientes", clienteRoutes);
 router.use("/user", userRoutes);
 router.use("/produtos", produtosRoutes);
+router.use("/estoque", stockRoutes);
 router.use("/supplier", supplierRoutes);
 router.use("/scheduling", schedulingRoutes);
 router.use("/setor", cadastroSetor);
@@ -28,7 +31,6 @@ router.use("/sales", salesRoutes);
 router.use("/budgets", budgetRoutes);
 router.use("/invoices", invoiceRoutes);
 router.use("/parcels", paymentParcelRoutes);
-
 router.get("/", (req, res) => {
   res.status(200).json({ message: "API is Working!" });
 });

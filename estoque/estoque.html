@@ -17,19 +17,19 @@
   <main>
 
     <div class="botoes-topo">
-      <a href="inventario.html" class="btn-verde">+ INVENTÁRIO</a>
-
       <button class="btn-branco">EXPORTAR</button>
 
       <div class="filtro-pesquisa">
         <div class="dropdown">
           <button class="filtro-btn">🔍</button>
+
           <div class="dropdown-conteudo">
             <label><input type="radio" name="filtro" checked /> N° Inventário</label>
             <label><input type="radio" name="filtro" /> CNPJ</label>
             <label><input type="radio" name="filtro" /> Dt.Contagem</label>
           </div>
         </div>
+
         <input type="text" placeholder="Pesquisar..." />
       </div>
     </div>
@@ -38,11 +38,12 @@
       <table>
         <thead>
           <tr>
-            <th>N° Inventário</th>
-            <th>CNPJ</th>
-            <th>Fornecedor</th>
-            <th>Dt. Contagem</th>
+            <th>Código de Barras</th>
+            <th>Nome</th>
+            <th>Preço</th>
+            <th>Tamanho</th>
             <th>Quantidade</th>
+            <th>Ações</th>
           </tr>
         </thead>
         <tbody></tbody>
@@ -115,7 +116,7 @@
     </div>
   </main>
 
-  <script src="../assets/js/clientes.js"></script>
+<script src="../assets/js/estoque.js"></script>
 
 </body>
 

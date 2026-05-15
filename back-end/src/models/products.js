@@ -35,7 +35,11 @@ const Produto = sequelize.define(
       allowNull: true,
       field: "id_fornecedor",
     },
-    quantidade: { type: DataTypes.INTEGER, field: "quantidade_estoque" },
+    quantidade: {
+      type: DataTypes.INTEGER,
+      field: "quantidade_estoque",
+      defaultValue: 0,
+    },
     preco: {
       type: DataTypes.DECIMAL(10, 2),
       allowNull: false,

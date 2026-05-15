@@ -64,6 +64,7 @@ function atualizarTituloDinamico() {
     produto: "CADASTRO DE PRODUTO",
     inicio: "PÁGINA INICIAL",
     agendamento: "AGENDAMENTO",
+    estoque: "ESTOQUE",
   };
 
   tituloEl.textContent = titulos[tipo] || "SISTEMA CANTINHO DO PET";

@@ -4,9 +4,10 @@ main {
 
 .botoes-topo {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 10px;
-  margin: 15px 20px;
+  margin: 15px 0;
+  width: 100%;
 }
 
 .btn-verde {
@@ -48,7 +49,6 @@ main {
 }
 
 .filtro-pesquisa {
-  margin-left: auto;
   display: flex;
   align-items: center;
   background-color: #f7f9fa;
