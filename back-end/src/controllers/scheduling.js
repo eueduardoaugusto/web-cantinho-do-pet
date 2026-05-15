@@ -113,10 +113,9 @@ export async function getScheduling(req, res) {
 // ======================================================
 // ATUALIZAR AGENDAMENTO
 // ======================================================
-export async function updateScheduling(req, res) {
+export async function updateSchedulingStatus(req, res) {
   const { id } = req.params;
-
-  const { id_cliente, id_pet, id_servico, data_horario, status } = req.body;
+  const { status } = req.body;
 
   try {
     const scheduling = await Scheduling.findByPk(id);
@@ -128,26 +127,21 @@ export async function updateScheduling(req, res) {
     }
 
     await scheduling.update({
-      id_cliente,
-      id_pet,
-      id_servico,
-      data_horario,
       status,
     });
 
     return res.status(200).json({
-      message: "Agendamento atualizado com sucesso",
+      message: "Status atualizado com sucesso",
       scheduling,
     });
   } catch (error) {
-    console.error("Ocorreu um erro:", error);
+    console.error(error);
 
     return res.status(500).json({
-      errors: ["Ocorreu um erro. Por favor, tente novamente mais tarde."],
+      errors: ["Erro ao atualizar status"],
     });
   }
 }
-
 // ======================================================
 // DELETAR AGENDAMENTO
 // ======================================================

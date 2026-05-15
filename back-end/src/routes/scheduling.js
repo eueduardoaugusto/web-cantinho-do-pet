@@ -7,7 +7,7 @@ import {
   registerScheduling,
   getScheduling,
   getAllScheduling,
-  updateScheduling,
+  updateSchedulingStatus,
   deleteScheduling,
 } from "../controllers/scheduling.js";
 
@@ -53,14 +53,11 @@ router.get(
 // ======================================================
 // ATUALIZAR AGENDAMENTO
 // ======================================================
-router.put(
-  "/:id",
+router.patch(
+  "/status/:id",
   roleGuard(["admin", "proprietario"]),
-  schedulingValidation(),
-  validate,
-  updateScheduling,
+  updateSchedulingStatus,
 );
-
 // ======================================================
 // DELETAR AGENDAMENTO
 // ======================================================
