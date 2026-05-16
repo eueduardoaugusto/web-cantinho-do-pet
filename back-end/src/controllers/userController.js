@@ -97,9 +97,9 @@ export async function imageUpload(req, res) {
 
     const { filename } = req.file;
 
-    await User.update({ avatar: filename }, { where: { id: req.user.userId } });
+    await User.update({ avatar: filename }, { where: { id: req.user.id } });
 
-    const user = await User.findByPk(req.user.userId, {
+    const user = await User.findByPk(req.user.id, {
       attributes: { exclude: ["password"] },
     });
 

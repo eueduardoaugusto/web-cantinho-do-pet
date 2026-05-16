@@ -150,8 +150,20 @@ export function logout(req, res) {
 // =========================
 // ME
 // =========================
-export function me(req, res) {
-  return res.status(200).json({
-    user: req.user,
-  });
+export async function me(req, res) {
+  try {
+    const user = await User.findByPk(req.user.id, {
+      attributes: { exclude: ["password"] },
+    });
+
+    return res.status(200).json({
+      user,
+    });
+  } catch (error) {
+    console.error("Ocorreu um erro:", error);
+
+    return res.status(500).json({
+      errors: ["Ocorreu um erro. Por favor, tente novamente mais tarde."],
+    });
+  }
 }
