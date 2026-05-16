@@ -1,20 +1,18 @@
-# 🧠 PROJETO INTEGRADOR: DESENVOLVIMENTO DE SISTEMAS ORIENTADO A DISPOSITIVOS MÓVEIS E BASEADOS NA WEB
+# 🧠 PROJETO INTEGRADOR: ANÁLISE DE SOLUÇÕES INTEGRADAS PARA ORGANIZAÇÕES
 
-•	Nosso produto consiste em um sistema para gestão de petshop, nomeado como Cantinho Pet, priorizamos por escolher tecnologias atuais e que se enquadra nas habilidades dos participantes.
+•	Nosso produto consiste em um sistema para gestão de petshop, nomeado como Cantinho do Pet, priorizamos por escolher tecnologias atuais e que se enquadra nas habilidades dos participantes.
 
-•	No Backend  utilizamos Node.js + Express + Sequelize + MySQL + Jose (para JWT) + Dotenv + Cookie-parser. Que são componentes responsáveis pela conexão, autenticação e comunicação com o Frontend. 
+•	No Backend  utilizamos Node.js + Express + Sequelize + MySQL + Jose (para JWT) + Dotenv + Cookie-parser. Que são componentes responsáveis pela conexão, autenticação e comunicação com o Frontend e o APP. 
 
 •	No Frontend utilizamos tecnologias básicas sendo elas: HTML, CSS e JavaScript. A comunicação é realizada por meio de rotas HTTP, onde é realizado requisições e a API realiza a resposta através de dados JSON para o Frontend.
-
-OBS: Foi feita uma revisita ao projeto, dadas as limitações da disponibilidade do grupo optamos por desenvolver apenas algumas rotinas (login, tela inicial, cliente, produtos e vendas). Não houve alterações na documentação do projeto, decidimos seguir com a ideia inicial.
 
 ---
 ## 🖥️ Participantes
 
+- DANIEL DE OLIVEIRA LOPES
 - DANIEL DE OLIVEIRA SOLANO LOPES
 - EDUARDO AUGUSTO DA SILVA ROSA
 - HENRIQUE BARREIRO SANTANA
-- ICARO GOES MOREIRA
 - MARCELLY CERDEIRINHA MARCIOTO
 - MIRIAM VIEGAS DE JESUS
 - VINICIUS PEREIRA DE SOUZA
@@ -69,7 +67,11 @@ FRONTEND:
 │ └── img/ # Imagens usadas
 │ └── js/ # Parte lógica e conexão com a API
 │
+├── agendamentos/ # Arquivos HTML das telas de agendamentos, possui painel de horários marcados e painel de andamento do pedido
+|
 ├── cadastro_cliente/ # Arquivos HTML das telas de cliente, possui painel de visualização e cadastro de clientes
+|
+├── estoque/ # Arquivos HTML das telas de estoque dos produtos, possui painel de visualização dos produtos e ação de inluir estoque do produto
 │
 ├── produtos/ # Arquivos HTML das telas de produto, possui painel de visualização dos produtos, cadastro de produtos, cadastro de setor e grupos
 │
@@ -98,7 +100,7 @@ FRONTEND:
 No **MySQL Workbench**, execute o comando SQL abaixo:
 
 ```sql
-CREATE DATABASE projeto_faculdade;
+CREATE DATABASE cantinho_pet;
 ```
 
 ### 📤 2. Importar o arquivo .sql
@@ -110,7 +112,7 @@ CREATE DATABASE projeto_faculdade;
 - Em Default Target Schema, selecione ou crie cantinho_pet
 - Clique em Start Import
 
-Esse arquivo contém as tabelas iniciais necessárias, como usuarios, produtos, vendas.
+Esse arquivo contém as tabelas iniciais necessárias, como usuarios, produtos, agendamentos, estoque e etc.
 
 ---
 
@@ -119,12 +121,13 @@ Esse arquivo contém as tabelas iniciais necessárias, como usuarios, produtos, 
 Crie um arquivo .env na raiz do projeto com base no modelo abaixo:
 
 ```
-DB_NAME=cantinho_pet
-DB_USER=root
+DB_NAME=
+DB_USER=
 DB_PASSWORD=
-DB_HOST=localhost
-PORT=3000
-SESSION_SECRET=sua_chave_aqui
+DB_HOST=
+PORT=
+SESSION_SECRET=
+JWT_SECRET=
 ```
 
 ⚠️ Se você usa o XAMPP, provavelmente o usuário é root e a senha fica vazia.
@@ -142,7 +145,7 @@ Se preferir usar Docker, basta ter o Docker e Docker Compose instalados.
 docker compose up -d
 ```
 
-2. O banco projeto_faculdade será criado automaticamente.
+2. O banco cantinho_pet será criado automaticamente.
 3. Configure o .env com as mesmas credenciais do docker-compose.yml.
 
 ---
