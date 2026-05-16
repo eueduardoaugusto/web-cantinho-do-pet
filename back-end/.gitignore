@@ -1,2 +1,7 @@
 node_modules
 .env
+
+temp/uploads/*.png
+temp/uploads/*.jpg
+temp/uploads/*.jpeg
+temp/uploads/*.webp

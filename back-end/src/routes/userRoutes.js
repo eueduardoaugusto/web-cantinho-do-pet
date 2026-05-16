@@ -6,9 +6,11 @@ import {
   getAllEmployees,
   getEmployee,
   deleteEmployee,
+  imageUpload,
 } from "../controllers/userController.js";
 import roleGuard from "../middleware/roleGuard.js";
 import authGuard from "../middleware/authGuard.js";
+import { upload } from "../config/multer.js";
 
 const router = Router();
 
@@ -32,5 +34,6 @@ router.get(
   getEmployee,
 );
 router.delete("/:id", roleGuard(["admin", "proprietario"]), deleteEmployee);
+router.patch("/upload-image", authGuard, upload.single("avatar"), imageUpload);
 
 export default router;

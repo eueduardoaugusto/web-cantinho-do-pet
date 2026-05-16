@@ -3,9 +3,10 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import "dotenv/config";
 import router from "./routes/index.js";
+import path from "path";
 
 export const app = express();
-
+app.use("/uploads", express.static(path.resolve("temp/uploads")));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
