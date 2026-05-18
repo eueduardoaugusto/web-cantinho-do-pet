@@ -57,7 +57,6 @@ const registerClientValidate = () => {
 
     body("complemento").optional().isString(),
 
-    // 🐾 VALIDAÇÃO CONDICIONAL DO PET
     body().custom((value) => {
       const hasAnyPetField =
         value.pet_nome ||

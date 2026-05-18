@@ -15,15 +15,8 @@ import roleGuard from "../middleware/roleGuard.js";
 import authGuard from "../middleware/authGuard.js";
 
 const router = Router();
-
-// ======================================================
-// AUTENTICAÇÃO
-// ======================================================
 router.use(authGuard);
 
-// ======================================================
-// CADASTRAR AGENDAMENTO
-// ======================================================
 router.post(
   "/register",
   roleGuard(["admin", "proprietario"]),
@@ -32,35 +25,24 @@ router.post(
   registerScheduling,
 );
 
-// ======================================================
-// LISTAR TODOS AGENDAMENTOS
-// ======================================================
 router.get(
   "/",
   roleGuard(["admin", "proprietario", "funcionario"]),
   getAllScheduling,
 );
 
-// ======================================================
-// BUSCAR AGENDAMENTO POR ID
-// ======================================================
 router.get(
   "/:id",
   roleGuard(["admin", "proprietario", "funcionario"]),
   getScheduling,
 );
 
-// ======================================================
-// ATUALIZAR AGENDAMENTO
-// ======================================================
 router.patch(
   "/status/:id",
   roleGuard(["admin", "proprietario"]),
   updateSchedulingStatus,
 );
-// ======================================================
-// DELETAR AGENDAMENTO
-// ======================================================
+
 router.delete("/:id", roleGuard(["admin", "proprietario"]), deleteScheduling);
 
 export default router;

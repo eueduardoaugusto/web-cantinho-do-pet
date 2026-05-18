@@ -23,10 +23,7 @@ import {
   Invoice,
   ItemSold,
   PaymentParcel,
-  // Monitor, Payment, Lancamento, Transmission (Não usados no seed de vendas)
 } from "../models/index.js";
-
-// --- FUNÇÕES DE SEEDING BÁSICAS ---
 
 async function seedUsers() {
   try {
@@ -73,8 +70,6 @@ async function seedClients() {
   }
 }
 
-// --- FUNÇÕES DE SEEDING DEPENDENTES ---
-
 async function seedPets(clientIds) {
   try {
     const insertedPets = await Promise.all(
@@ -82,7 +77,6 @@ async function seedPets(clientIds) {
         const client = clientIds[i];
         return await Pet.create({
           ...pet,
-          // ✅ CORREÇÃO: Usando a PK do Cliente: id_cliente
           client_id: client.id_cliente,
         });
       }),
@@ -110,7 +104,6 @@ async function seedProducts(supplierIds) {
 
         return await Product.create({
           ...product,
-          // ✅ CORREÇÃO: Usando a PK do Supplier: id_supplier
           id_fornecedor: supplier.id_supplier,
         });
       }),
@@ -135,7 +128,6 @@ async function seedBudgets(userIds, clientIds) {
 
         return await Budget.create({
           ...budget,
-          // ✅ CORREÇÃO: Usando a PK do User: id, e a PK do Cliente: id_cliente
           userId: user.id,
           clientId: client.id_cliente,
         });
@@ -159,7 +151,6 @@ async function seedSales(userIds, clientIds, budgetIds) {
 
         return await Sale.create({
           ...sale,
-          // ✅ CORREÇÃO: Usando as PKs corretas: id, id_cliente, budget_id
           userId: user.id,
           clientId: client.id_cliente,
           budgetId: budget.budget_id,
@@ -183,7 +174,6 @@ async function seedItemSolds(saleIds, productIds) {
 
         return await ItemSold.create({
           ...itemSold,
-          // ✅ CORREÇÃO: Usando as PKs corretas: sale_id e id_produto
           saleId: sale.sale_id,
           productId: product.id_produto,
         });
@@ -204,7 +194,6 @@ async function seedInvoices(saleIds) {
         const sale = saleIds[invoice.saleId - 1];
         return await Invoice.create({
           ...invoice,
-          // ✅ CORREÇÃO: Usando a PK correta: sale_id
           saleId: sale.sale_id,
         });
       }),
@@ -224,7 +213,6 @@ async function seedPaymentParcels(saleIds) {
         const sale = saleIds[parcel.saleId - 1];
         return await PaymentParcel.create({
           ...parcel,
-          // ✅ CORREÇÃO: Usando a PK correta: sale_id
           saleId: sale.sale_id,
         });
       }),
@@ -237,31 +225,25 @@ async function seedPaymentParcels(saleIds) {
   }
 }
 
-// --- FUNÇÃO PRINCIPAL DE EXECUÇÃO ---
-
 async function main() {
   console.log("Starting database seeding...");
 
-  // 1. Entidades Independentes
   const [insertedUsers, insertedSuppliers, insertedClients] = await Promise.all(
     [seedUsers(), seedSuppliers(), seedClients()],
   );
 
-  // 2. Entidades de 1º Nível de Dependência
   const [insertedProducts, insertedPets, insertedBudgets] = await Promise.all([
     seedProducts(insertedSuppliers),
     seedPets(insertedClients),
     seedBudgets(insertedUsers, insertedClients),
   ]);
 
-  // 3. Entidades de 2º Nível de Dependência (Vendas)
   const insertedSales = await seedSales(
     insertedUsers,
     insertedClients,
     insertedBudgets,
   );
 
-  // 4. Entidades de 3º Nível de Dependência (Associações de Vendas)
   await Promise.all([
     seedItemSolds(insertedSales, insertedProducts),
     seedInvoices(insertedSales),

@@ -1,8 +1,5 @@
 import { Scheduling, Product, Client, Pet } from "../models/index.js";
 
-// ======================================================
-// CADASTRAR AGENDAMENTO
-// ======================================================
 export async function registerScheduling(req, res) {
   const { id_cliente, id_pet, id_servico, data_horario, status } = req.body;
 
@@ -28,9 +25,6 @@ export async function registerScheduling(req, res) {
   }
 }
 
-// ======================================================
-// LISTAR TODOS AGENDAMENTOS
-// ======================================================
 export async function getAllScheduling(req, res) {
   try {
     const scheduling = await Scheduling.findAll({
@@ -65,9 +59,6 @@ export async function getAllScheduling(req, res) {
   }
 }
 
-// ======================================================
-// BUSCAR AGENDAMENTO POR ID
-// ======================================================
 export async function getScheduling(req, res) {
   const { id } = req.params;
 
@@ -110,9 +101,6 @@ export async function getScheduling(req, res) {
   }
 }
 
-// ======================================================
-// ATUALIZAR AGENDAMENTO
-// ======================================================
 export async function updateSchedulingStatus(req, res) {
   const { id } = req.params;
   const { status } = req.body;
@@ -142,9 +130,6 @@ export async function updateSchedulingStatus(req, res) {
     });
   }
 }
-// ======================================================
-// DELETAR AGENDAMENTO
-// ======================================================
 export async function deleteScheduling(req, res) {
   const { id } = req.params;
 

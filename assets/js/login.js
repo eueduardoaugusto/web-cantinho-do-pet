@@ -1,8 +1,5 @@
 const API_URL = "http://localhost:3000/api/auth/login";
 
-// ======================================================
-// LOGIN
-// ======================================================
 document.querySelector(".login-form").addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -25,7 +22,6 @@ document.querySelector(".login-form").addEventListener("submit", async (e) => {
 
       body: JSON.stringify(body),
 
-      // COOKIE
       credentials: "include",
     });
 
@@ -35,20 +31,11 @@ document.querySelector(".login-form").addEventListener("submit", async (e) => {
       data = await response.json();
     }
 
-    // ======================================================
-    // SUCESSO
-    // ======================================================
     if (response.ok) {
-      // ======================================================
-      // SALVAR TOKEN
-      // ======================================================
       if (data.token) {
         localStorage.setItem("token", data.token);
       }
 
-      // ======================================================
-      // SALVAR USER
-      // ======================================================
       if (data.user) {
         localStorage.setItem("user", JSON.stringify(data.user));
       }

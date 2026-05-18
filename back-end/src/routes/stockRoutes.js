@@ -11,10 +11,8 @@ const router = express.Router();
 
 router.use(authGuard);
 
-// LISTAR
 router.get("/", listarEstoque);
 
-// ALTERAR QUANTIDADE
 router.put("/:id", atualizarQuantidade);
 
 export default router;

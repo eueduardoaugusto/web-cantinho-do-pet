@@ -1,8 +1,5 @@
 import { Product as Produto } from "../models/index.js";
 
-// ================================
-// LISTAR ESTOQUE
-// ================================
 export const listarEstoque = async (req, res) => {
   try {
     const produtos = await Produto.findAll({
@@ -26,9 +23,6 @@ export const listarEstoque = async (req, res) => {
   }
 };
 
-// ================================
-// ALTERAR QUANTIDADE
-// ================================
 export const atualizarQuantidade = async (req, res) => {
   try {
     const { id } = req.params;

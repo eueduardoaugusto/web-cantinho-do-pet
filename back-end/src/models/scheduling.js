@@ -11,19 +11,16 @@ const Scheduling = sequelize.define(
       allowNull: false,
     },
 
-    // FK -> clientes.id_cliente
     id_cliente: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
 
-    // FK -> pets.id_pet
     id_pet: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
 
-    // FK -> produtos.id_produto
     id_servico: {
       type: DataTypes.INTEGER,
       allowNull: false,

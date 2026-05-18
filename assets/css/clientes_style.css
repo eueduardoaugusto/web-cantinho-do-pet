@@ -277,8 +277,6 @@ td .btn-excluir {
   gap: 20px;
   justify-content: center;
 }
-
-/* ---------- CORRIGIR ---------- */
 @media (max-width: 768px) {
   th,
   td {

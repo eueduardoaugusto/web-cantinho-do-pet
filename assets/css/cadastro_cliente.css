@@ -127,7 +127,6 @@ form {
 .botao-pet:hover {
   background-color: #a2e0cb;
 }
-/*--- Editar Responsividade ---*/
 @media (max-width: 768px) {
   .linha {
     grid-template-columns: 1fr;

@@ -5,9 +5,6 @@ import jwt from "jsonwebtoken";
 import { createSession } from "../lib/session.js";
 import { encryptPassword } from "../utils/passwordEncryption.js";
 
-// =========================
-// REGISTER
-// =========================
 export async function register(req, res) {
   const { name, email, password } = req.body;
 
@@ -30,14 +27,8 @@ export async function register(req, res) {
       password: passwordHash,
     });
 
-    // =========================
-    // COOKIE SESSION (WEB)
-    // =========================
     await createSession(res, user.id, user.role);
 
-    // =========================
-    // JWT TOKEN (MOBILE)
-    // =========================
     const token = jwt.sign(
       {
         id: user.id,
@@ -68,9 +59,6 @@ export async function register(req, res) {
   }
 }
 
-// =========================
-// LOGIN
-// =========================
 export async function login(req, res) {
   const { email, password } = req.body;
 
@@ -93,14 +81,8 @@ export async function login(req, res) {
       });
     }
 
-    // =========================
-    // COOKIE SESSION (WEB)
-    // =========================
     await createSession(res, user.id, user.role);
 
-    // =========================
-    // JWT TOKEN (MOBILE)
-    // =========================
     console.log(process.env.JWT_SECRET);
     const token = jwt.sign(
       {
@@ -132,9 +114,6 @@ export async function login(req, res) {
   }
 }
 
-// =========================
-// LOGOUT
-// =========================
 export function logout(req, res) {
   res.clearCookie("session", {
     httpOnly: true,
@@ -147,9 +126,6 @@ export function logout(req, res) {
   });
 }
 
-// =========================
-// ME
-// =========================
 export async function me(req, res) {
   try {
     const user = await User.findByPk(req.user.id, {

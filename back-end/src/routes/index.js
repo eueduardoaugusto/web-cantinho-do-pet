@@ -1,5 +1,3 @@
-// routes.js (Corrigido)
-
 import { Router } from "express";
 import authRoutes from "./authRoutes.js";
 import clienteRoutes from "./clientRoutes.js";

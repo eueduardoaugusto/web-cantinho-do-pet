@@ -1,15 +1,5 @@
-// ======================================================
-// agendamentos.js
-// ======================================================
-
-// ======================================================
-// API
-// ======================================================
 const API_URL = "http://localhost:3000/api/scheduling";
 
-// ======================================================
-// ELEMENTOS
-// ======================================================
 const horariosList = document.getElementById("horariosList");
 
 const retiradaList = document.getElementById("retiradaList");
@@ -24,14 +14,8 @@ const prevDateBtn = document.querySelectorAll(".date-navigation button")[0];
 
 const nextDateBtn = document.querySelectorAll(".date-navigation button")[1];
 
-// ======================================================
-// DATA SELECIONADA
-// ======================================================
 let selectedDate = new Date();
 
-// ======================================================
-// FORMATAR DATA YYYY-MM-DD
-// ======================================================
 function formatDateToCompare(date) {
   const year = date.getFullYear();
 
@@ -42,18 +26,12 @@ function formatDateToCompare(date) {
   return `${year}-${month}-${day}`;
 }
 
-// ======================================================
-// EXTRAIR DATA MYSQL
-// ======================================================
 function getMysqlDate(dateString) {
   if (!dateString) return "";
 
   return new Date(dateString).toISOString().split("T")[0];
 }
 
-// ======================================================
-// RENDER DATA
-// ======================================================
 function renderCurrentDate() {
   currentDate.innerText = selectedDate.toLocaleDateString("pt-BR", {
     day: "2-digit",
@@ -64,9 +42,6 @@ function renderCurrentDate() {
 
 renderCurrentDate();
 
-// ======================================================
-// FORMATAR HORÁRIO INICIAL
-// ======================================================
 function formatTime(dateString) {
   if (!dateString) return "--:--";
 
@@ -78,9 +53,6 @@ function formatTime(dateString) {
   });
 }
 
-// ======================================================
-// FORMATAR HORÁRIO FINAL (+30 MIN)
-// ======================================================
 function formatEndTime(dateString) {
   if (!dateString) return "--:--";
 
@@ -94,27 +66,24 @@ function formatEndTime(dateString) {
   });
 }
 
-// ======================================================
-// TAG SERVIÇO
-// ======================================================
 function getServiceTag(serviceName) {
   if (!serviceName) return "SV";
 
   const words = serviceName.split(" ");
 
+  
   if (words.length === 1) {
-    return words.substring(0, 2).toUpperCase();
+    return words[0].substring(0, 2).toUpperCase();
   }
 
+  
   return words
     .map((word) => word[0])
     .join("")
     .toUpperCase();
 }
 
-// ======================================================
-// LOAD API
-// ======================================================
+
 async function loadScheduling() {
   try {
     const response = await fetch(API_URL, {
@@ -153,9 +122,6 @@ async function loadScheduling() {
   }
 }
 
-// ======================================================
-// RENDER AGENDAMENTOS
-// ======================================================
 function renderScheduling(schedulingList) {
   horariosList.innerHTML = "";
 
@@ -169,14 +135,9 @@ function renderScheduling(schedulingList) {
     return;
   }
 
-  // ==========================================
-  // DATA ESCOLHIDA
-  // ==========================================
   const selectedDateString = formatDateToCompare(selectedDate);
 
-  // ==========================================
-  // FILTRAR MESMO DIA
-  // ==========================================
+
   const filteredList = schedulingList.filter((item) => {
     if (!item.data_horario) return false;
 
@@ -188,9 +149,7 @@ function renderScheduling(schedulingList) {
     );
   });
 
-  // ==========================================
-  // SEM AGENDAMENTOS
-  // ==========================================
+  
   if (filteredList.length === 0) {
     horariosList.innerHTML = `
       <div class="empty-message">
@@ -198,9 +157,7 @@ function renderScheduling(schedulingList) {
       </div>
     `;
   } else {
-    // ==========================================
-    // RENDER
-    // ==========================================
+    
     filteredList.forEach((item) => {
       const clienteNome = item.cliente?.nome || item.cliente?.name || "Cliente";
 
@@ -261,9 +218,6 @@ function renderScheduling(schedulingList) {
   renderRetirada(schedulingList);
 }
 
-// ======================================================
-// RETIRADA
-// ======================================================
 function renderRetirada(schedulingList) {
   retiradaList.innerHTML = "";
 
@@ -313,9 +267,6 @@ function renderRetirada(schedulingList) {
   });
 }
 
-// ======================================================
-// DELETE
-// ======================================================
 function setupDeleteButtons() {
   const deleteButtons = document.querySelectorAll(".delete-btn");
 
@@ -352,9 +303,6 @@ function setupDeleteButtons() {
   });
 }
 
-// ======================================================
-// NAVEGAR DATAS
-// ======================================================
 prevDateBtn.addEventListener("click", () => {
   selectedDate.setDate(selectedDate.getDate() - 1);
 
@@ -371,25 +319,16 @@ nextDateBtn.addEventListener("click", () => {
   loadScheduling();
 });
 
-// ======================================================
-// BOTÃO NOVO AGENDAMENTO
-// ======================================================
 if (btnNovoAgendamento) {
   btnNovoAgendamento.addEventListener("click", () => {
     window.location.href = "/pages/novoAgendamento.html";
   });
 }
 
-// ======================================================
-// RETIRADA
-// ======================================================
 if (btnAtualizarRetirada) {
   btnAtualizarRetirada.addEventListener("click", () => {
     alert("Função em desenvolvimento");
   });
 }
 
-// ======================================================
-// INIT
-// ======================================================
 loadScheduling();

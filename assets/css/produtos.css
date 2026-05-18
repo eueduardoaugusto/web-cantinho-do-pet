@@ -323,7 +323,7 @@ td .btn-excluir {
     transform: scale(1);
   }
 }
-/* --- Editar Responsividade --- */
+
 @media (max-width: 768px) {
   .acoes {
     flex-wrap: wrap;

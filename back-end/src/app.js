@@ -10,7 +10,6 @@ app.use("/uploads", express.static(path.resolve("temp/uploads")));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// configuração dos cors (É isso que irá definir a conexão com o Front-End)
 app.use(
   cors({
     origin: [

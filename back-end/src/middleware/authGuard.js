@@ -3,9 +3,6 @@ import { decrypt } from "../lib/session.js";
 
 export default async function authGuard(req, res, next) {
   try {
-    // =========================
-    // JWT TOKEN (React Native)
-    // =========================
     const authHeader = req.headers.authorization;
 
     if (authHeader) {
@@ -24,9 +21,6 @@ export default async function authGuard(req, res, next) {
       }
     }
 
-    // =========================
-    // COOKIE SESSION (WEB)
-    // =========================
     const session = req.cookies.session;
 
     if (session) {
@@ -43,9 +37,6 @@ export default async function authGuard(req, res, next) {
       return next();
     }
 
-    // =========================
-    // NÃO AUTENTICADO
-    // =========================
     return res.status(401).json({
       errors: ["Usuário não autenticado."],
     });

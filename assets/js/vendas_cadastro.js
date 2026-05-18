@@ -199,9 +199,8 @@ function renderItemsList() {
 }
 
 function updateTotalValueDisplay() {
-  document.getElementById(
-    "totalValueDisplay",
-  ).textContent = `R$ ${totalSaleValue.toFixed(2).replace(".", ",")}`;
+  document.getElementById("totalValueDisplay").textContent =
+    `R$ ${totalSaleValue.toFixed(2).replace(".", ",")}`;
   document.getElementById("totalValueInput").value = totalSaleValue.toFixed(2);
 }
 
@@ -214,11 +213,10 @@ function openPaymentModal() {
   const currentInstallments =
     parseInt(document.getElementById("installmentsCount").value) || 1;
   const suggestedValue = (totalSaleValue / currentInstallments).toFixed(2);
-  document.getElementById(
-    "parcelValue",
-  ).placeholder = `Será calculado ou digitado (Total: R$ ${totalSaleValue
-    .toFixed(2)
-    .replace(".", ",")}) - Sugerido: R$ ${suggestedValue.replace(".", ",")}`;
+  document.getElementById("parcelValue").placeholder =
+    `Será calculado ou digitado (Total: R$ ${totalSaleValue
+      .toFixed(2)
+      .replace(".", ",")}) - Sugerido: R$ ${suggestedValue.replace(".", ",")}`;
 
   document.getElementById("popupPagamento").style.display = "flex";
 }
@@ -372,7 +370,6 @@ document
     console.log("Payload para o Backend:", payload);
     try {
       const response = await fetch(`${API_BASE_URL}/api/sales`, {
-        // Usa a API_BASE_URL
         method: "POST",
         headers: {
           "Content-Type": "application/json",

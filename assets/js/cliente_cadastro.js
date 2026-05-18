@@ -4,7 +4,6 @@ document.addEventListener("DOMContentLoaded", () => {
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    // PEGANDO OS CAMPOS
     const dadosClientes = {
       nome: document.getElementById("nome").value,
       cpf: document.getElementById("cpf").value,
