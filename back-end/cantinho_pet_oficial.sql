@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `cantinho_pet` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `cantinho_pet`;
 -- MySQL dump 10.13  Distrib 8.0.42, for Win64 (x86_64)
 --
 -- Host: localhost    Database: cantinho_pet
@@ -28,7 +30,7 @@ CREATE TABLE `agendamentos` (
   `id_pet` int NOT NULL,
   `id_servico` int NOT NULL,
   `data_horario` datetime NOT NULL,
-  `status` enum('Pendente','Confirmado','Concluido','Cancelado') DEFAULT 'Pendente',
+  `status` enum('Pendente','Confirmado','Finalizado','Cancelado') DEFAULT 'Pendente',
   PRIMARY KEY (`id_agendamento`),
   KEY `id_cliente` (`id_cliente`),
   KEY `id_pet` (`id_pet`),
@@ -36,7 +38,7 @@ CREATE TABLE `agendamentos` (
   CONSTRAINT `agendamentos_ibfk_1` FOREIGN KEY (`id_cliente`) REFERENCES `clientes` (`id_cliente`),
   CONSTRAINT `agendamentos_ibfk_2` FOREIGN KEY (`id_pet`) REFERENCES `pets` (`id_pet`),
   CONSTRAINT `agendamentos_ibfk_3` FOREIGN KEY (`id_servico`) REFERENCES `produtos` (`id_produto`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -45,7 +47,7 @@ CREATE TABLE `agendamentos` (
 
 LOCK TABLES `agendamentos` WRITE;
 /*!40000 ALTER TABLE `agendamentos` DISABLE KEYS */;
-INSERT INTO `agendamentos` VALUES (2,1,1,1,'2026-05-13 08:30:00','Pendente');
+INSERT INTO `agendamentos` VALUES (2,1,1,1,'2026-05-16 08:30:00','Finalizado'),(3,3,2,8,'2026-05-16 10:30:00','Confirmado'),(4,5,4,9,'2026-05-17 16:30:00','Confirmado');
 /*!40000 ALTER TABLE `agendamentos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -70,7 +72,7 @@ CREATE TABLE `clientes` (
   `email` varchar(255) DEFAULT NULL,
   `telefone` varchar(255) NOT NULL,
   PRIMARY KEY (`id_cliente`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -79,7 +81,7 @@ CREATE TABLE `clientes` (
 
 LOCK TABLES `clientes` WRITE;
 /*!40000 ALTER TABLE `clientes` DISABLE KEYS */;
-INSERT INTO `clientes` VALUES (1,'Eduardo','12345678911','14444444','Rua','Das Rosas','87','Casa','Franca','SP','ed@teste.com.br','16999999999');
+INSERT INTO `clientes` VALUES (1,'CRISTINA AGUILERA','12345678911','14444444','RUA','JOSÉ OLIVEIRA','87','CASA','SÃO PAULO','SP','cristina@teste.com.br','11999999999'),(3,'ROBERTO CARLOS','11111111111','14300000','RUA','SÃO PAULO','12','CASA','SÃO PAULO','SP','roberto@testel.com','11999999999'),(5,'SORAYA RIBEIRO','22222222222','11222222','RUA','EUROPA','77','CASA','SÃO PAULO','SP','soraya@teste.com','11999999999');
 /*!40000 ALTER TABLE `clientes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -127,7 +129,7 @@ CREATE TABLE `grupos` (
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -136,7 +138,7 @@ CREATE TABLE `grupos` (
 
 LOCK TABLES `grupos` WRITE;
 /*!40000 ALTER TABLE `grupos` DISABLE KEYS */;
-INSERT INTO `grupos` VALUES (1,'SERVICO LOCAL',NULL,'1',1,'2026-05-12 21:20:00','2026-05-12 21:20:00');
+INSERT INTO `grupos` VALUES (1,'SERVICO LOCAL','PETSHOP','SERVICOS',1,'2026-05-12 21:20:00','2026-05-12 21:20:00'),(2,'RACAO DOG','CÃES ADULTO','RACAO',1,'2026-05-13 21:57:15','2026-05-13 21:57:15');
 /*!40000 ALTER TABLE `grupos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -279,7 +281,7 @@ CREATE TABLE `pets` (
   PRIMARY KEY (`id_pet`),
   KEY `id_cliente` (`id_cliente`),
   CONSTRAINT `pets_ibfk_1` FOREIGN KEY (`id_cliente`) REFERENCES `clientes` (`id_cliente`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -288,7 +290,7 @@ CREATE TABLE `pets` (
 
 LOCK TABLES `pets` WRITE;
 /*!40000 ALTER TABLE `pets` DISABLE KEYS */;
-INSERT INTO `pets` VALUES (1,1,'Bolinha','Cachorro','Golden',4,NULL);
+INSERT INTO `pets` VALUES (1,1,'BOLINHA','Cachorro','GOLDEN',4,NULL),(2,3,'TUFÃO','Cachorro','PITBULL',4,NULL),(4,5,'LUNA','Cachorro','SHIH TZU',2,NULL);
 /*!40000 ALTER TABLE `pets` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -313,7 +315,7 @@ CREATE TABLE `produtos` (
   PRIMARY KEY (`id_produto`),
   KEY `produtos_ibfk_1` (`id_fornecedor`),
   CONSTRAINT `produtos_ibfk_1` FOREIGN KEY (`id_fornecedor`) REFERENCES `fornecedores` (`id_fornecedor`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -322,7 +324,7 @@ CREATE TABLE `produtos` (
 
 LOCK TABLES `produtos` WRITE;
 /*!40000 ALTER TABLE `produtos` DISABLE KEYS */;
-INSERT INTO `produtos` VALUES (1,'888','BANHO E TOSA',NULL,'1','1',NULL,NULL,30.00,1),(2,'88888888','RACAO GATO','5KG','1','1',NULL,20,40.00,0);
+INSERT INTO `produtos` VALUES (1,'888','BANHO E TOSA','UN','SERVICOS','SERVICO LOCAL',NULL,0,100.00,1),(2,'88888888','RACAO KING','15KG','RACAO','RACAO DOG',NULL,20,120.00,0),(5,'675757','RACAO GOLDEN','15KG','RACAO','RACAO DOG',NULL,30,150.00,0),(8,'444','BANHO','UN','SERVICOS','SERVICO LOCAL',NULL,0,50.00,1),(9,'555','TOSA','UN','SERVICOS','SERVICO LOCAL',NULL,0,70.00,1);
 /*!40000 ALTER TABLE `produtos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -342,7 +344,7 @@ CREATE TABLE `setor` (
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -351,7 +353,7 @@ CREATE TABLE `setor` (
 
 LOCK TABLES `setor` WRITE;
 /*!40000 ALTER TABLE `setor` DISABLE KEYS */;
-INSERT INTO `setor` VALUES (1,'SERVICOS','SERVICOS PRESTADOS','SRV',1,'2026-05-12 21:20:00','2026-05-12 21:20:00');
+INSERT INTO `setor` VALUES (1,'SERVICOS','SERVICOS PRESTADOS','SRV',1,'2026-05-12 21:20:00','2026-05-12 21:20:00'),(2,'RACAO','RACAO DOG','RAC',1,'2026-05-13 21:57:00','2026-05-13 21:57:00');
 /*!40000 ALTER TABLE `setor` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -369,9 +371,10 @@ CREATE TABLE `usuarios` (
   `senha` varchar(255) NOT NULL,
   `cargo` enum('proprietario','funcionario','admin') DEFAULT 'funcionario',
   `data_criacao` datetime DEFAULT NULL,
+  `avatar` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id_usuario`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -380,7 +383,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,'Eduardo Augusto','eduardo@teste.com.br','$2a$12$oAkHk6BT53YblDY4KRGxUeYs6NdRor3qm5k2rL86OWNOdzbn2Llkq','admin','2026-05-12 20:11:00');
+INSERT INTO `usuarios` VALUES (1,'Juliana Matos','cantinho@teste.com.br','$2a$12$KUnznHrlRf/U56UjNMHRd.zTVookQm.4tJYdYkbyTTjZMJXh38VLW','admin','2026-05-12 20:11:00','avatar-1778968418696.jpeg'),(2,'Carlos Roberto','carlos@teste.com.br','$2a$12$oAkHk6BT53YblDY4KRGxUeYs6NdRor3qm5k2rL86OWNOdzbn2Llkq','admin','2026-05-14 20:11:00',NULL);
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -430,4 +433,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-05-13 20:51:54
+-- Dump completed on 2026-05-18  8:31:55
